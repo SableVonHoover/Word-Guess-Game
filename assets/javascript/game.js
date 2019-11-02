@@ -3,7 +3,7 @@
 let wins = 0;
 let guessesLeft = 13;
 let guessedLetters = [];
-const wordArray = ["", "", "", "", "", ""];
+const wordArray = ["booty", "scallywag", "cutlass", "seadog", "privateer", "crossbones"];
 
 //Chooses random word from wordArray
 let currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
@@ -14,8 +14,20 @@ let displayedWord = [];
 const winsText = document.getElementById("winsText");
 const wordDiv = document.getElementById("wordDiv");
 const guessCountDiv = document.getElementById("guessCountDiv");
-const lastGuessedDiv = document.getElementById("lastGuessedDiv");
+const GuessedDiv = document.getElementById("GuessedDiv");
 winsText.textContent = "WINS: " + wins;
+guessCountDiv.innerHTML = guessesLeft;
+GuessedDiv.innerHTML = guessedLetters.join(" ");
+
+//This pushes the seperate letters of the currentWord into brokenWordArray
+for (let i = 0; i < currentWord.length; i++) {
+    brokenWordArray.push(currentWord.charAt(i));
+
+    //Makes a blank(_) for every letter of the word
+    displayedWord.push("_");
+}
+//Updates word on html page
+wordDiv.innerHTML = displayedWord.join(" ");
 
 //Setting the word that is to be guessed
 function chooseWord() {
@@ -25,20 +37,22 @@ function chooseWord() {
 
     //This pushes the seperate letters of the currentWord into brokenWordArray
     for (let i = 0; i < currentWord.length; i++) {
-        brokenWordArray.push(charAt(i));
+        brokenWordArray.push(currentWord.charAt(i));
 
         //Makes a blank(_) for every letter of the word
         displayedWord.push("_");
     }
+    //Updates word on html page
+    wordDiv.innerHTML = displayedWord.join(" ");
 }
-
 
 
 //This runs every time the player types a letter
 document.onkeyup = function (event) {
     //This is the key that the player pressed
     let guess = event.key.toLocaleLowerCase();
-    guessesLeft--;
+
+
     //If the letter has not been chosen already
     if (!guessedLetters.includes(guess)) {
 
@@ -56,19 +70,35 @@ document.onkeyup = function (event) {
 
             winCheck();
 
+            //Updates HTML Elements
+            winsText.textContent = "WINS: " + wins;
+            wordDiv.innerHTML = displayedWord.join(" ");
+            guessCountDiv.innerHTML = guessesLeft;
+            GuessedDiv.innerHTML = guessedLetters.join(" ");
+
         }
+
         //Guessed letter is incorrect
         else {
+            guessesLeft--;
             guessedLetters.push(guess);
             loseCheck();
+
+            //Updates HTML Elements
+            winsText.textContent = "WINS: " + wins;
+            wordDiv.innerHTML = displayedWord.join(" ");
+            guessCountDiv.innerHTML = guessesLeft;
+            GuessedDiv.innerHTML = guessedLetters.join(" ");
         }
+
+        //Does nothing if user types a letter than has already been chosen.
     }
 };
 
 //Runs after every incorrectly chosen letter
 function loseCheck() {
     //Run out of guesses and you lose
-    if (guessesLeft === 0) {
+    if (guessesLeft < 1) {
         alert("Ye lost, matey!");
 
         //Resets game, chooses new word
