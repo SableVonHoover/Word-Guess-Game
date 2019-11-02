@@ -1,7 +1,7 @@
 
 //Starting game value variables
 let wins = 0;
-let guessesLeft = 13;
+let guessesLeft = 7;
 let guessedLetters = [];
 const wordArray = ["booty", "scallywag", "cutlass", "seadog", "privateer", "crossbones"];
 
@@ -15,6 +15,7 @@ const winsText = document.getElementById("winsText");
 const wordDiv = document.getElementById("wordDiv");
 const guessCountDiv = document.getElementById("guessCountDiv");
 const GuessedDiv = document.getElementById("GuessedDiv");
+const currentImage = document.getElementById("currentImage");
 winsText.textContent = "WINS: " + wins;
 guessCountDiv.innerHTML = guessesLeft;
 GuessedDiv.innerHTML = guessedLetters.join(" ");
@@ -102,7 +103,7 @@ function loseCheck() {
         alert("Ye lost, matey!");
 
         //Resets game, chooses new word
-        guessesLeft = 13;
+        guessesLeft = 7;
         guessedLetters = [];
 
         //Chooses new word
@@ -121,8 +122,11 @@ function winCheck() {
         alert("Ye have won " + wins + " times!");
 
         //Resets game
-        guessesLeft = 13;
+        guessesLeft = 7;
         guessedLetters = [];
+
+        //change image source depending on word
+        currentImage.src = ("assets/images/" + currentWord + ".jpg");
 
         //Chooses new word
         chooseWord();
